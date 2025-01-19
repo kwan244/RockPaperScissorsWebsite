@@ -2,10 +2,11 @@
         let score = JSON.parse(localStorage.getItem('score')) || { wins: 0, losses: 0, ties: 0};
         // update the score on the page
         updateScore();
-        let roundNumber = JSON.parse(localStorage.getItem('roundNumber')) || 1;
+        let roundNumber = JSON.parse(localStorage.getItem('roundNumber')) || 0;
         let difficulty = JSON.parse(localStorage.getItem('difficulty')) || 'easy';
         // update the difficulty on the page
         updateDifficulty(difficulty);
+        let playerFavor = JSON.parse(localStorage.getItem('playerFavor')) || {'scissors': 0, 'paper': 0, 'rock': 0};
 
         // Reset the game
         function resetGame() {
@@ -13,9 +14,13 @@
             score.wins = 0;
             score.losses = 0;
             score.ties = 0;
-            roundNumber = 1;
+            roundNumber = 0;
+            playerFavor.scissors = 0;
+            playerFavor.paper = 0;
+            playerFavor.rock = 0;
             localStorage.removeItem('score'); 
             localStorage.removeItem('roundNumber');
+            localStorage.removeItem('playerFavor');
             updateScore();
         }
 
@@ -44,6 +49,8 @@
         function playGame(playerMove) {
             // Set variables
             let difficulty = JSON.parse(localStorage.getItem('difficulty')) || 'easy';
+            let roundNumber = JSON.parse(localStorage.getItem('roundNumber')) || 0;
+            let playerFavor = JSON.parse(localStorage.getItem('playerFavor')) || {'scissors': 0, 'paper': 0, 'rock': 0};
             let computerMove = "";
 
             // if difficulty is easy
@@ -53,14 +60,16 @@
                 computerMove = pickComputerMoveEasy();
             } else if (difficulty === 'medium') {
                 // Get the computer move
-                computerMove = pickComputerMovemedium();
+                computerMove = pickComputerMovemedium(roundNumber, playerFavor);
             } else {
                 // Get the computer move
-                computerMove = pickComputerMoveHard();
+                computerMove = pickComputerMoveHard(playerFavor);
             }
             
             // Compare the moves and get the result
             if(playerMove === 'Scissors') {
+                // Count the number of times the player has picked scissors
+                playerFavor.scissors++;
                 if (computerMove === 'Rock') {
                     result = 'You lose.';
                 } else if (computerMove === 'Paper') {
@@ -70,6 +79,8 @@
                 }
 
             } else if (playerMove === 'Paper') {
+                // Count the number of times the player has picked paper
+                playerFavor.paper++;
                 if (computerMove === 'Rock') {
                     result = 'You win.';
                 } else if (computerMove === 'Paper') {
@@ -79,6 +90,8 @@
                 }
 
             } else {
+                // Count the number of times the player has picked rock
+                playerFavor.rock++;
                 if (computerMove === 'Rock') {
                     result = 'Tie.';
                 } else if (computerMove === 'Paper') {
@@ -102,6 +115,8 @@
             localStorage.setItem('roundNumber', JSON.stringify(roundNumber));
             // Update the score in local storage
             localStorage.setItem('score', JSON.stringify(score));
+            // Update the player favor in local storage
+            localStorage.setItem('playerFavor', JSON.stringify(playerFavor));
 
             // Update the score on the page
             updateScore();
@@ -123,22 +138,36 @@
             return moves[randomIndex];
         }
 
-        function pickComputerMovemedium() {
+        function pickComputerMovemedium(roundNumber, playerFavor) {
             // moves list to choose from
             const moves = ['Rock', 'Paper', 'Scissors'];
-            // pick a random index
-            const randomIndex = Math.floor(Math.random() * moves.length);
-            // return the move at that index
-            return moves[randomIndex];
+            if (roundNumber < 3) {
+                // pick a random index
+                const randomIndex = Math.floor(Math.random() * moves.length);
+                return moves[randomIndex];
+            } else {
+                let max = Math.max(playerFavor.scissors, playerFavor.paper, playerFavor.rock);
+                if (max === playerFavor.scissors) {
+                    return 'Rock';
+                } else if (max === playerFavor.paper) {
+                    return 'Scissors';
+                } else {
+                    return 'Paper';
+                }
+            };
         }
 
-        function pickComputerMoveHard() {
+        function pickComputerMoveHard(playerFavor) {
             // moves list to choose from
             const moves = ['Rock', 'Paper', 'Scissors'];
-            // pick a random index
-            const randomIndex = Math.floor(Math.random() * moves.length);
-            // return the move at that index
-            return moves[randomIndex];
+            let max = Math.max(playerFavor.scissors, playerFavor.paper, playerFavor.rock);
+            if (max === playerFavor.scissors) {
+                return 'Rock';
+            } else if (max === playerFavor.paper) {
+                return 'Scissors';
+            } else {
+                return 'Paper';
+            }
         }
 
         function updateScore() {
