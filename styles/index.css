@@ -36,6 +36,12 @@ h1 {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.difficulty-button.active {
+    background-color: rgb(88, 166, 89);
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .move-icon {
     width: 100px;
     height: 100px;

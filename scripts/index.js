@@ -2,11 +2,62 @@
         let score = JSON.parse(localStorage.getItem('score')) || { wins: 0, losses: 0, ties: 0};
         // update the score on the page
         updateScore();
+        let roundNumber = JSON.parse(localStorage.getItem('roundNumber')) || 1;
+        let difficulty = JSON.parse(localStorage.getItem('difficulty')) || 'easy';
+        // update the difficulty on the page
+        updateDifficulty(difficulty);
+
+        // Reset the game
+        function resetGame() {
+            // Reset the score
+            score.wins = 0;
+            score.losses = 0;
+            score.ties = 0;
+            roundNumber = 1;
+            localStorage.removeItem('score'); 
+            localStorage.removeItem('roundNumber');
+            updateScore();
+        }
+
+        // Change the difficulty
+        function changeDifficulty(selectedDifficulty) {
+            // Update the difficulty in local storage
+            localStorage.setItem('difficulty', JSON.stringify(selectedDifficulty));
+            document.querySelectorAll('.difficulty-button').forEach(btn => btn.classList.remove('active'));
+            // Update the difficulty on the page
+            updateDifficulty();
+            resetGame();
+        }
+
+        function updateDifficulty(selectedDifficulty) {
+            // Update the difficulty on the page
+            if (selectedDifficulty === 'easy') {
+                document.querySelector('.difficulty-button.easy').classList.add('active');
+            } else if (selectedDifficulty === 'medium') {
+                document.querySelector('.difficulty-button.medium').classList.add('active');
+            } else if (selectedDifficulty === 'hard') {
+                document.querySelector('.difficulty-button.hard').classList.add('active');
+            }
+        }
 
         // Function to play the game
         function playGame(playerMove) {
-            // Get the computer move
-            const computerMove = pickComputerMove();
+            // Set variables
+            let difficulty = JSON.parse(localStorage.getItem('difficulty')) || 'easy';
+            let computerMove = "";
+
+            // if difficulty is easy
+            if (difficulty === 'easy'){
+                document.querySelector('.difficulty-button.easy').classList.add('active');
+                // Get the computer move
+                computerMove = pickComputerMoveEasy();
+            } else if (difficulty === 'medium') {
+                // Get the computer move
+                computerMove = pickComputerMovemedium();
+            } else {
+                // Get the computer move
+                computerMove = pickComputerMoveHard();
+            }
             
             // Compare the moves and get the result
             if(playerMove === 'Scissors') {
@@ -46,6 +97,9 @@
                 score.ties++;
             }
             
+            // Update the round number
+            roundNumber++;
+            localStorage.setItem('roundNumber', JSON.stringify(roundNumber));
             // Update the score in local storage
             localStorage.setItem('score', JSON.stringify(score));
 
@@ -58,11 +112,27 @@
             <img src="images/${playerMove.toLowerCase()}-emoji.png" class="move-icon">
             Computer move:
             <img src="images/${computerMove.toLowerCase()}-emoji.png" class="move-icon">`;
-
-            console.log(computerMove);
         }
 
-        function pickComputerMove() {
+        function pickComputerMoveEasy() {
+            // moves list to choose from
+            const moves = ['Rock', 'Paper', 'Scissors'];
+            // pick a random index
+            const randomIndex = Math.floor(Math.random() * moves.length);
+            // return the move at that index
+            return moves[randomIndex];
+        }
+
+        function pickComputerMovemedium() {
+            // moves list to choose from
+            const moves = ['Rock', 'Paper', 'Scissors'];
+            // pick a random index
+            const randomIndex = Math.floor(Math.random() * moves.length);
+            // return the move at that index
+            return moves[randomIndex];
+        }
+
+        function pickComputerMoveHard() {
             // moves list to choose from
             const moves = ['Rock', 'Paper', 'Scissors'];
             // pick a random index
