@@ -23,6 +23,25 @@
                 margin-right: 10px;
                 cursor: pointer;
             }
+
+            .result {
+                font-size: 25px;
+                font-weight: bold;
+                margin-top: 50px
+            }
+
+            .score {
+                margin-top: 60px;
+            }
+
+            .reset {
+                background-color: white;
+                border: none;
+                font-size:15px;
+                padding: 10px 15px;
+                cursor: pointer;
+            }
+
         </style>
     </head>
     <body>
@@ -33,8 +52,8 @@
         <button onclick="playGame('Scissors')" class="move-button"><img src="images/scissors-emoji.png" class="move-icon"></button>
 
         <p class="js-moves"></p>
-        <p class="js-results"></p>
-        <p class="js-score"></p>
+        <p class="js-results result"></p>
+        <p class="js-score score"></p>
 
         <button onclick="
             score.wins = 0;
@@ -43,7 +62,7 @@
             score.tries = 0;
             localStorage.removeItem('score');
             updateScore();  
-        ">Reset Score</button>
+        " class="reset">Reset Score</button>
     </body>
 
     <script>
@@ -106,7 +125,10 @@
             // Update the result on the page
             document.querySelector('.js-results').textContent = result;
             // Update the moves on the page
-            document.querySelector('.js-moves').textContent = `Player: ${playerMove} Computer: ${computerMove}`;
+            document.querySelector('.js-moves').innerHTML = `Player move:
+            <img src="images/${playerMove.toLowerCase()}-emoji.png" class="move-icon">
+            Computer move:
+            <img src="images/${computerMove.toLowerCase()}-emoji.png" class="move-icon">`;
 
             console.log(computerMove);
         }
