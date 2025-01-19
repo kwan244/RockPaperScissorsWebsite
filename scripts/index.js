@@ -30,7 +30,7 @@
             localStorage.setItem('difficulty', JSON.stringify(selectedDifficulty));
             document.querySelectorAll('.difficulty-button').forEach(btn => btn.classList.remove('active'));
             // Update the difficulty on the page
-            updateDifficulty();
+            updateDifficulty(selectedDifficulty);
             resetGame();
         }
 

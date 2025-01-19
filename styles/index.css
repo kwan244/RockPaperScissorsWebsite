@@ -66,6 +66,7 @@ h1 {
 .move-button:hover {
     transform: scale(1.1);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border: 10px solid rgb(88, 166, 89);
 }
 
 .move {
