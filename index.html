@@ -14,7 +14,14 @@
         <p class="js-results"></p>
         <p class="js-score"></p>
 
-        <button>Reset Score</button>
+        <button onclick="
+            score.wins = 0;
+            score.losses = 0;
+            score.ties = 0;
+            score.tries = 0;
+            localStorage.removeItem('score');
+            updateScore();  
+        ">Reset Score</button>
     </body>
 
     <script>
