@@ -1,7 +1,13 @@
 body {
-    background-color: rgb(25, 25, 25);
+    background-color: rgb(146, 210, 147);
     color: white;
     font-family: Arial;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 50px;
+    font-size:50px;
 }
 
 .move-icon {
@@ -9,24 +15,37 @@ body {
     height: 100px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .move-button {
     background-color: transparent;
-    border: 3px solid white;
-    width: 120px;
-    height: 120px;
+    border: 10px solid white;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     margin-right: 10px;
     cursor: pointer;
 }
 
+.move {
+    text-align: center;
+    font-size: 40px;
+}
+
 .result {
-    font-size: 25px;
+    text-align: center;
+    font-size: 40px;
     font-weight: bold;
     margin-top: 50px
 }
 
 .score {
-    margin-top: 60px;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 30px;
 }
 
 .reset {

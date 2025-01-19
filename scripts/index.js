@@ -1,5 +1,5 @@
         // Store the score in local storage or set it to inital values
-        let score = JSON.parse(localStorage.getItem('score')) || { wins: 0, losses: 0, ties: 0, tries: 0 };
+        let score = JSON.parse(localStorage.getItem('score')) || { wins: 0, losses: 0, ties: 0};
         // update the score on the page
         updateScore();
 
@@ -45,9 +45,6 @@
             } else {
                 score.ties++;
             }
-
-            // Increment the number of tries
-            score.tries++;
             
             // Update the score in local storage
             localStorage.setItem('score', JSON.stringify(score));
@@ -76,5 +73,5 @@
 
         function updateScore() {
             // Update the score on the page
-            document.querySelector('.js-score').textContent = `Player Score: ${score.wins} Computer Score: ${score.losses} Ties: ${score.ties} Total Tries: ${score.tries}`;
+            document.querySelector('.js-score').textContent = `Player Score: ${score.wins} Computer Score: ${score.losses} Ties: ${score.ties}`;
         }
